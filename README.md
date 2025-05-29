@@ -1,1 +1,1 @@
-# MediaPlayerGD
+# GDMP
