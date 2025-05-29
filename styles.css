@@ -185,3 +185,53 @@ iframe {
 .close:hover {
   color: #fff;
 }
+
+header {
+  padding: 20px;
+  background: #181818;
+  color: white;
+  text-align: center;
+  border-bottom: 1px solid #333;
+}
+
+header input[type="file"],
+header input[type="text"],
+header button,
+header select {
+  margin: 5px 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+}
+
+header input[type="file"] {
+  background: #2a2a2a;
+  color: #ccc;
+}
+
+header input[type="text"] {
+  width: 250px;
+  max-width: 100%;
+  background: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+header button {
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+header button:hover {
+  background: #005fc2;
+}
+
+header select {
+  background: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+}
