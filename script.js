@@ -1,6 +1,8 @@
-const playlistInput = document.getElementById("playlistFile");
-const playlistContainer = document.getElementById("playlist");
+const playlistFile = document.getElementById("playlistFile");
+const playlistUrl = document.getElementById("playlistUrl");
+const loadUrlBtn = document.getElementById("loadUrlBtn");
 const clearDbBtn = document.getElementById("clearDbBtn");
+const playlistContainer = document.getElementById("playlist");
 const categoryFilter = document.getElementById("categoryFilter");
 
 const STORAGE_KEY = "gdrive_playlist";
@@ -19,7 +21,8 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-playlistInput.addEventListener("change", (e) => {
+// 📂 Загрузка из файла
+playlistFile.addEventListener("change", (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
@@ -27,17 +30,33 @@ playlistInput.addEventListener("change", (e) => {
   reader.onload = () => {
     try {
       const items = JSON.parse(reader.result);
-      currentPlaylist = items;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-      updateFilterOptions(items);
-      renderPlaylist(items);
-    } catch {
-      alert("Ошибка чтения JSON.");
+      saveAndRender(items);
+    } catch (err) {
+      alert("❌ Ошибка чтения JSON-файла.");
     }
   };
   reader.readAsText(file);
 });
 
+// 🌐 Загрузка по ссылке
+loadUrlBtn.addEventListener("click", () => {
+  const url = playlistUrl.value.trim();
+  if (!url) return alert("Введите ссылку на JSON-файл");
+
+  fetch(url)
+    .then(res => {
+      if (!res.ok) throw new Error("Ошибка загрузки: " + res.status);
+      return res.json();
+    })
+    .then(data => {
+      saveAndRender(data);
+    })
+    .catch(err => {
+      alert("❌ Не удалось загрузить JSON: " + err.message);
+    });
+});
+
+// 🧹 Очистка базы
 clearDbBtn.addEventListener("click", () => {
   localStorage.removeItem(STORAGE_KEY);
   currentPlaylist = [];
@@ -45,6 +64,7 @@ clearDbBtn.addEventListener("click", () => {
   categoryFilter.innerHTML = `<option value="all">Все категории</option>`;
 });
 
+// 🧩 Фильтрация по категориям
 categoryFilter.addEventListener("change", () => {
   const selected = categoryFilter.value;
   if (selected === "all") {
@@ -55,6 +75,15 @@ categoryFilter.addEventListener("change", () => {
   }
 });
 
+// 🔄 Сохранить и отрисовать
+function saveAndRender(items) {
+  currentPlaylist = items;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  updateFilterOptions(items);
+  renderPlaylist(items);
+}
+
+// 📦 Отрисовка плиток
 function renderPlaylist(items) {
   playlistContainer.innerHTML = "";
   items.forEach(item => {
@@ -75,6 +104,7 @@ function renderPlaylist(items) {
   });
 }
 
+// 🔃 Обновление списка категорий
 function updateFilterOptions(items) {
   const categories = Array.from(new Set(items.map(i => i.category).filter(Boolean)));
   categoryFilter.innerHTML = `<option value="all">Все категории</option>`;
