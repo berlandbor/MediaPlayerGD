@@ -10,11 +10,13 @@
   <header>
     <h1>🎬 MediaPlayer GD Berlandbor</h1>
     <h2>⬇️Загрузите Плейлист в формате .json свой или от провайдера</h2>
-    <input type="file" id="playlistFile" accept=".json" /><hr>
-    <button id="clearDbBtn">🗑 Очистить базу</button>
-    <select id="categoryFilter">
-      <option value="all">Все категории</option>
-    </select>
+   <input type="file" id="playlistFile" accept=".json" /><hr>
+<input type="text" id="playlistUrl" placeholder="Вставьте ссылку на JSON" />
+<button id="loadUrlBtn">📡 Загрузить по ссылке</button><hr>
+<button id="clearDbBtn">🗑 Очистить базу</button>
+<select id="categoryFilter">
+  <option value="all">Все категории</option>
+</select>
     <button id="aboutBtn">ℹ️ О проекте</button>
 
   </header>
