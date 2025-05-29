@@ -85,3 +85,32 @@ function updateFilterOptions(items) {
     categoryFilter.appendChild(opt);
   });
 }
+
+// Модальное окно "О проекте"
+const aboutBtn = document.getElementById("aboutBtn");
+const aboutModal = document.getElementById("aboutModal");
+const closeModal = document.getElementById("closeModal");
+
+aboutBtn.addEventListener("click", () => {
+  aboutModal.style.display = "block";
+});
+
+closeModal.addEventListener("click", () => {
+  aboutModal.style.display = "none";
+});
+
+window.addEventListener("click", (e) => {
+  if (e.target === aboutModal) {
+    aboutModal.style.display = "none";
+  }
+});
+
+// Автооткрытие при первом запуске
+window.addEventListener("DOMContentLoaded", () => {
+  const shown = localStorage.getItem("about_shown");
+  if (!shown) {
+    aboutModal.style.display = "block";
+    localStorage.setItem("about_shown", "true");
+  }
+});
+
